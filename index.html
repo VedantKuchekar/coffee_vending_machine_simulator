@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta name="description"
+        content="BrewMate - A modern Coffee Vending Machine Simulator built using HTML, CSS and JavaScript.">
+
+    <meta name="author" content="Vedant">
+
+    <title>BrewMate | Coffee Vending Machine</title>
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <div class="app">
+
+        <!-- ================= HEADER ================= -->
+
+        <header class="header">
+
+            <div class="brand">
+
+                <div class="brand-icon">
+                    ☕
+                </div>
+
+                <div class="brand-text">
+                    <h1>BrewMate</h1>
+                    <p>Smart Coffee Vending Machine</p>
+                </div>
+
+            </div>
+
+        </header>
+
+
+        <!-- ================= MAIN CONTENT ================= -->
+
+        <main class="grid">
+
+            <!-- ================= LEFT PANEL ================= -->
+
+            <section class="panel">
+
+                <div class="section-header">
+
+                    <div>
+                        <h2>Choose Your Coffee</h2>
+
+                        <p>
+                            Select a beverage to begin your order
+                        </p>
+                    </div>
+
+                </div>
+
+
+                <!-- ================= COFFEE MENU ================= -->
+
+                <div class="menu">
+
+                    <!-- ESPRESSO -->
+
+                    <div class="coffee-card" id="card-Espresso">
+
+                        <div class="coffee-icon">
+                            ☕
+                        </div>
+
+                        <h3>Espresso</h3>
+
+                        <p>Rich & bold</p>
+
+                        <div class="price">
+                            ₹40
+                        </div>
+
+                        <button
+                            class="select-btn"
+                            onclick="selectCoffee('Espresso')">
+
+                            Select
+
+                        </button>
+
+                    </div>
+
+
+                    <!-- CAPPUCCINO -->
+
+                    <div class="coffee-card" id="card-Cappuccino">
+
+                        <div class="coffee-icon">
+                            🥛
+                        </div>
+
+                        <h3>Cappuccino</h3>
+
+                        <p>Creamy & smooth</p>
+
+                        <div class="price">
+                            ₹60
+                        </div>
+
+                        <button
+                            class="select-btn"
+                            onclick="selectCoffee('Cappuccino')">
+
+                            Select
+
+                        </button>
+
+                    </div>
+
+
+                    <!-- LATTE -->
+
+                    <div class="coffee-card" id="card-Latte">
+
+                        <div class="coffee-icon">
+                            ☕
+                        </div>
+
+                        <h3>Latte</h3>
+
+                        <p>Silky & mellow</p>
+
+                        <div class="price">
+                            ₹70
+                        </div>
+
+                        <button
+                            class="select-btn"
+                            onclick="selectCoffee('Latte')">
+
+                            Select
+
+                        </button>
+
+                    </div>
+
+                </div>
+
+
+                <!-- ================= PAYMENT ================= -->
+
+                <div class="transaction">
+
+                    <div class="section-header">
+
+                        <div>
+
+                            <h2>Payment</h2>
+
+                            <p>
+                                Insert money to complete your order
+                            </p>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- SELECTED COFFEE -->
+
+                    <div class="selected-coffee">
+
+                        <div>
+
+                            <span class="selected-label">
+                                SELECTED BEVERAGE
+                            </span>
+
+                            <div
+                                class="selected-name"
+                                id="selectedCoffee">
+
+                                No coffee selected
+
+                            </div>
+
+                        </div>
+
+
+                        <div
+                            class="selected-price"
+                            id="selectedPrice">
+
+                            ₹0
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- MONEY INPUT -->
+
+                    <div class="payment-row">
+
+                        <input
+                            type="number"
+                            id="moneyInput"
+                            class="money-input"
+                            placeholder="Enter amount in ₹"
+                            min="1"
+                            step="0.01"
+                            onkeydown="handleEnter(event)"
+                        >
+
+                        <button
+                            class="pay-btn"
+                            onclick="addMoney()">
+
+                            Add Money
+
+                        </button>
+
+                    </div>
+
+
+                    <!-- CANCEL -->
+
+                    <button
+                        class="cancel-btn"
+                        onclick="cancelTransaction()">
+
+                        Cancel Transaction & Refund
+
+                    </button>
+
+
+                    <!-- MESSAGE -->
+
+                    <div
+                        id="message"
+                        class="message">
+                    </div>
+
+                </div>
+
+            </section>
+
+
+            <!-- ================= RIGHT PANEL ================= -->
+
+            <section class="panel">
+
+                <div class="section-header">
+
+                    <div>
+
+                        <h2>Machine Inventory</h2>
+
+                        <p>
+                            Current ingredient levels
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <!-- ================= INGREDIENTS ================= -->
+
+                <div class="ingredients">
+
+                    <!-- WATER -->
+
+                    <div class="ingredient">
+
+                        <div class="ingredient-top">
+
+                            <span class="ingredient-name">
+                                Water
+                            </span>
+
+                            <span class="ingredient-icon">
+                                💧
+                            </span>
+
+                        </div>
+
+                        <div
+                            class="ingredient-value"
+                            id="water">
+
+                            1000 ml
+
+                        </div>
+
+                        <div class="progress">
+
+                            <div
+                                class="progress-bar"
+                                id="waterBar"
+                                style="width: 100%">
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- MILK -->
+
+                    <div class="ingredient">
+
+                        <div class="ingredient-top">
+
+                            <span class="ingredient-name">
+                                Milk
+                            </span>
+
+                            <span class="ingredient-icon">
+                                🥛
+                            </span>
+
+                        </div>
+
+                        <div
+                            class="ingredient-value"
+                            id="milk">
+
+                            1000 ml
+
+                        </div>
+
+                        <div class="progress">
+
+                            <div
+                                class="progress-bar"
+                                id="milkBar"
+                                style="width: 100%">
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- COFFEE -->
+
+                    <div class="ingredient">
+
+                        <div class="ingredient-top">
+
+                            <span class="ingredient-name">
+                                Coffee Powder
+                            </span>
+
+                            <span class="ingredient-icon">
+                                ☕
+                            </span>
+
+                        </div>
+
+                        <div
+                            class="ingredient-value"
+                            id="coffee">
+
+                            200 g
+
+                        </div>
+
+                        <div class="progress">
+
+                            <div
+                                class="progress-bar"
+                                id="coffeeBar"
+                                style="width: 100%">
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- SUGAR -->
+
+                    <div class="ingredient">
+
+                        <div class="ingredient-top">
+
+                            <span class="ingredient-name">
+                                Sugar
+                            </span>
+
+                            <span class="ingredient-icon">
+                                🍬
+                            </span>
+
+                        </div>
+
+                        <div
+                            class="ingredient-value"
+                            id="sugar">
+
+                            200 g
+
+                        </div>
+
+                        <div class="progress">
+
+                            <div
+                                class="progress-bar"
+                                id="sugarBar"
+                                style="width: 100%">
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- ================= INFO CARD ================= -->
+
+                <div class="info-card">
+
+                    <h3>
+                        ⚙️ Smart Refill System
+                    </h3>
+
+                    <p>
+                        The machine automatically refills an ingredient
+                        to its predefined capacity whenever the available
+                        quantity is insufficient for the selected coffee.
+                    </p>
+
+                </div>
+
+            </section>
+
+        </main>
+
+
+        <!-- ================= FOOTER ================= -->
+
+        <footer>
+
+            <span>
+                BrewMate Coffee Vending Machine 
+            </span>
+
+            <button
+                class="reset-btn"
+                onclick="resetMachine()">
+
+                Reset Machine
+
+            </button>
+
+        </footer>
+
+    </div>
+
+
+    <!-- JavaScript -->
+
+    <script src="script.js"></script>
+
+</body>
+
+</html>

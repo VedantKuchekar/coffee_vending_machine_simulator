@@ -1,0 +1,1085 @@
+/* =========================================================
+   BREWMATE
+   COFFEE VENDING MACHINE SIMULATOR
+   ========================================================= */
+
+
+/* =========================================================
+   RESET
+   ========================================================= */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+
+/* =========================================================
+   ROOT VARIABLES
+   ========================================================= */
+
+:root {
+
+    --background: #120e0b;
+
+    --card: #1d1713;
+
+    --card-light: #251d18;
+
+    --border: rgba(255, 255, 255, 0.08);
+
+    --text: #fff7ed;
+
+    --muted: #b9aaa0;
+
+    --coffee: #c58b5b;
+
+    --coffee-light: #e3b58a;
+
+    --green: #72c78a;
+
+    --red: #e57979;
+
+    --blue: #75b9df;
+
+    --shadow:
+        0 25px 70px rgba(0, 0, 0, 0.45);
+
+    --radius: 22px;
+}
+
+
+/* =========================================================
+   BODY
+   ========================================================= */
+
+body {
+
+    min-height: 100vh;
+
+    padding: 30px 18px;
+
+    color: var(--text);
+
+    font-family:
+        Inter,
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        sans-serif;
+
+    background:
+        radial-gradient(
+            circle at 10% 10%,
+            rgba(197, 139, 91, 0.16),
+            transparent 30%
+        ),
+
+        radial-gradient(
+            circle at 90% 20%,
+            rgba(227, 181, 138, 0.08),
+            transparent 25%
+        ),
+
+        linear-gradient(
+            135deg,
+            #120e0b,
+            #1a120e 50%,
+            #100c09
+        );
+}
+
+
+/* =========================================================
+   BUTTON & INPUT
+   ========================================================= */
+
+button,
+input {
+    font: inherit;
+}
+
+button {
+    cursor: pointer;
+}
+
+
+/* =========================================================
+   MAIN APP
+   ========================================================= */
+
+.app {
+
+    width: min(1150px, 100%);
+
+    margin: auto;
+}
+
+
+/* =========================================================
+   HEADER
+   ========================================================= */
+
+.header {
+
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: center;
+
+    gap: 20px;
+
+    padding: 25px 30px;
+
+    margin-bottom: 24px;
+
+    background:
+        rgba(29, 23, 19, 0.82);
+
+    border:
+        1px solid var(--border);
+
+    border-radius:
+        var(--radius);
+
+    box-shadow:
+        var(--shadow);
+
+    backdrop-filter:
+        blur(15px);
+}
+
+
+/* =========================================================
+   BRAND
+   ========================================================= */
+
+.brand {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 15px;
+}
+
+
+.brand-icon {
+
+    width: 55px;
+
+    height: 55px;
+
+    display: grid;
+
+    place-items: center;
+
+    border-radius: 17px;
+
+    font-size: 28px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #d7a06e,
+            #8f5d39
+        );
+
+    box-shadow:
+        0 10px 30px
+        rgba(197, 139, 91, 0.25);
+}
+
+
+.brand h1 {
+
+    font-size: 24px;
+
+    letter-spacing: -0.5px;
+}
+
+
+.brand p {
+
+    margin-top: 3px;
+
+    color: var(--muted);
+
+    font-size: 13px;
+}
+
+
+/* =========================================================
+   MACHINE STATUS
+   ========================================================= */
+
+.status {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 9px;
+
+    padding: 9px 14px;
+
+    border-radius: 999px;
+
+    background:
+        rgba(114, 199, 138, 0.08);
+
+    border:
+        1px solid
+        rgba(114, 199, 138, 0.18);
+
+    color: var(--green);
+
+    font-size: 13px;
+
+    font-weight: 600;
+}
+
+
+.status-dot {
+
+    width: 8px;
+
+    height: 8px;
+
+    border-radius: 50%;
+
+    background:
+        var(--green);
+
+    box-shadow:
+        0 0 12px var(--green);
+
+    animation:
+        pulse 2s infinite;
+}
+
+
+@keyframes pulse {
+
+    0%,
+    100% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 0.4;
+    }
+}
+
+
+/* =========================================================
+   MAIN GRID
+   ========================================================= */
+
+.grid {
+
+    display: grid;
+
+    grid-template-columns:
+        1.6fr 1fr;
+
+    gap: 24px;
+}
+
+
+/* =========================================================
+   PANEL
+   ========================================================= */
+
+.panel {
+
+    padding: 25px;
+
+    background:
+        rgba(29, 23, 19, 0.84);
+
+    border:
+        1px solid var(--border);
+
+    border-radius:
+        var(--radius);
+
+    box-shadow:
+        var(--shadow);
+
+    backdrop-filter:
+        blur(15px);
+}
+
+
+/* =========================================================
+   SECTION HEADER
+   ========================================================= */
+
+.section-header {
+
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: center;
+
+    margin-bottom: 20px;
+}
+
+
+.section-header h2 {
+
+    font-size: 17px;
+
+    font-weight: 700;
+}
+
+
+.section-header p {
+
+    margin-top: 4px;
+
+    color: var(--muted);
+
+    font-size: 12px;
+}
+
+
+/* =========================================================
+   COFFEE MENU
+   ========================================================= */
+
+.menu {
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(3, 1fr);
+
+    gap: 14px;
+}
+
+
+/* =========================================================
+   COFFEE CARD
+   ========================================================= */
+
+.coffee-card {
+
+    position: relative;
+
+    padding: 20px 15px;
+
+    text-align: center;
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(255, 255, 255, 0.045),
+            rgba(255, 255, 255, 0.015)
+        );
+
+    border:
+        1px solid var(--border);
+
+    border-radius: 18px;
+
+    transition:
+        transform 0.25s ease,
+        border-color 0.25s ease,
+        background 0.25s ease;
+}
+
+
+.coffee-card:hover {
+
+    transform:
+        translateY(-5px);
+
+    border-color:
+        rgba(197, 139, 91, 0.45);
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(197, 139, 91, 0.10),
+            rgba(255, 255, 255, 0.025)
+        );
+}
+
+
+/* Selected coffee */
+
+.coffee-card.selected {
+
+    border-color:
+        var(--coffee);
+
+    box-shadow:
+
+        0 0 0 1px
+        rgba(197, 139, 91, 0.18),
+
+        0 15px 35px
+        rgba(0, 0, 0, 0.2);
+}
+
+
+/* =========================================================
+   COFFEE ICON
+   ========================================================= */
+
+.coffee-icon {
+
+    width: 65px;
+
+    height: 65px;
+
+    margin:
+        0 auto 14px;
+
+    display: grid;
+
+    place-items: center;
+
+    border-radius: 50%;
+
+    font-size: 31px;
+
+    background:
+        radial-gradient(
+            circle,
+            rgba(227, 181, 138, 0.16),
+            rgba(197, 139, 91, 0.04)
+        );
+}
+
+
+/* =========================================================
+   COFFEE CARD TEXT
+   ========================================================= */
+
+.coffee-card h3 {
+
+    font-size: 16px;
+
+    margin-bottom: 5px;
+}
+
+
+.coffee-card p {
+
+    color: var(--muted);
+
+    font-size: 11px;
+
+    margin-bottom: 15px;
+}
+
+
+.price {
+
+    color:
+        var(--coffee-light);
+
+    font-size: 18px;
+
+    font-weight: 800;
+
+    margin-bottom: 14px;
+}
+
+
+/* =========================================================
+   SELECT BUTTON
+   ========================================================= */
+
+.select-btn {
+
+    width: 100%;
+
+    padding: 10px;
+
+    border:
+        1px solid
+        rgba(197, 139, 91, 0.25);
+
+    border-radius: 10px;
+
+    background:
+        rgba(197, 139, 91, 0.09);
+
+    color:
+        var(--coffee-light);
+
+    transition:
+        0.2s;
+}
+
+
+.select-btn:hover {
+
+    background:
+        var(--coffee);
+
+    color:
+        #1a100b;
+}
+
+
+/* =========================================================
+   TRANSACTION
+   ========================================================= */
+
+.transaction {
+
+    margin-top: 24px;
+}
+
+
+/* =========================================================
+   SELECTED COFFEE
+   ========================================================= */
+
+.selected-coffee {
+
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: center;
+
+    padding: 17px;
+
+    margin-bottom: 14px;
+
+    background:
+        rgba(255, 255, 255, 0.035);
+
+    border:
+        1px solid var(--border);
+
+    border-radius: 14px;
+}
+
+
+.selected-label {
+
+    color:
+        var(--muted);
+
+    font-size: 12px;
+}
+
+
+.selected-name {
+
+    margin-top: 4px;
+
+    font-size: 17px;
+
+    font-weight: 700;
+}
+
+
+.selected-price {
+
+    color:
+        var(--coffee-light);
+
+    font-weight: 800;
+}
+
+
+/* =========================================================
+   PAYMENT
+   ========================================================= */
+
+.payment-row {
+
+    display: flex;
+
+    gap: 10px;
+}
+
+
+.money-input {
+
+    flex: 1;
+
+    min-width: 0;
+
+    padding: 13px 15px;
+
+    color:
+        var(--text);
+
+    background:
+        #130f0c;
+
+    border:
+        1px solid var(--border);
+
+    border-radius: 12px;
+
+    outline: none;
+
+    transition:
+        0.2s;
+}
+
+
+.money-input:focus {
+
+    border-color:
+        rgba(197, 139, 91, 0.6);
+
+    box-shadow:
+        0 0 0 3px
+        rgba(197, 139, 91, 0.08);
+}
+
+
+/* =========================================================
+   PAY BUTTON
+   ========================================================= */
+
+.pay-btn {
+
+    padding:
+        13px 22px;
+
+    border: none;
+
+    border-radius: 12px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #d8a171,
+            #a66c43
+        );
+
+    color:
+        #1a100b;
+
+    font-weight:
+        800;
+
+    transition:
+        0.2s;
+}
+
+
+.pay-btn:hover {
+
+    transform:
+        translateY(-2px);
+
+    box-shadow:
+        0 10px 25px
+        rgba(197, 139, 91, 0.22);
+}
+
+
+/* =========================================================
+   CANCEL BUTTON
+   ========================================================= */
+
+.cancel-btn {
+
+    width: 100%;
+
+    margin-top: 10px;
+
+    padding: 11px;
+
+    border:
+        1px solid
+        rgba(229, 121, 121, 0.2);
+
+    border-radius: 11px;
+
+    background:
+        rgba(229, 121, 121, 0.06);
+
+    color:
+        var(--red);
+
+    transition:
+        0.2s;
+}
+
+
+.cancel-btn:hover {
+
+    background:
+        rgba(229, 121, 121, 0.12);
+}
+
+
+/* =========================================================
+   MESSAGE
+   ========================================================= */
+
+.message {
+
+    display: none;
+
+    margin-top: 14px;
+
+    padding: 14px;
+
+    border-radius: 12px;
+
+    font-size: 13px;
+
+    line-height: 1.6;
+
+    animation:
+        slideIn 0.25s ease;
+}
+
+
+.message.success {
+
+    display: block;
+
+    background:
+        rgba(114, 199, 138, 0.08);
+
+    border:
+        1px solid
+        rgba(114, 199, 138, 0.15);
+
+    color:
+        var(--green);
+}
+
+
+.message.error {
+
+    display: block;
+
+    background:
+        rgba(229, 121, 121, 0.08);
+
+    border:
+        1px solid
+        rgba(229, 121, 121, 0.15);
+
+    color:
+        var(--red);
+}
+
+
+.message.info {
+
+    display: block;
+
+    background:
+        rgba(117, 185, 223, 0.08);
+
+    border:
+        1px solid
+        rgba(117, 185, 223, 0.15);
+
+    color:
+        var(--blue);
+}
+
+
+@keyframes slideIn {
+
+    from {
+
+        opacity: 0;
+
+        transform:
+            translateY(5px);
+    }
+
+    to {
+
+        opacity: 1;
+
+        transform:
+            translateY(0);
+    }
+}
+
+
+/* =========================================================
+   INGREDIENTS
+   ========================================================= */
+
+.ingredients {
+
+    display: grid;
+
+    grid-template-columns:
+        1fr 1fr;
+
+    gap: 12px;
+}
+
+
+/* =========================================================
+   INGREDIENT CARD
+   ========================================================= */
+
+.ingredient {
+
+    padding: 16px;
+
+    border-radius: 15px;
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(255, 255, 255, 0.04),
+            rgba(255, 255, 255, 0.015)
+        );
+
+    border:
+        1px solid var(--border);
+}
+
+
+.ingredient-top {
+
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: center;
+}
+
+
+.ingredient-name {
+
+    font-size: 12px;
+
+    color:
+        var(--muted);
+}
+
+
+.ingredient-icon {
+
+    font-size: 20px;
+}
+
+
+.ingredient-value {
+
+    margin-top: 10px;
+
+    font-size: 18px;
+
+    font-weight: 800;
+}
+
+
+/* =========================================================
+   PROGRESS BAR
+   ========================================================= */
+
+.progress {
+
+    height: 5px;
+
+    margin-top: 10px;
+
+    overflow: hidden;
+
+    border-radius: 10px;
+
+    background:
+        rgba(255, 255, 255, 0.07);
+}
+
+
+.progress-bar {
+
+    height: 100%;
+
+    border-radius: inherit;
+
+    background:
+        linear-gradient(
+            90deg,
+            #a66c43,
+            #e3b58a
+        );
+
+    transition:
+        width 0.4s ease;
+}
+
+
+/* =========================================================
+   INFO CARD
+   ========================================================= */
+
+.info-card {
+
+    margin-top: 24px;
+
+    padding: 18px;
+
+    border-radius: 16px;
+
+    background:
+        rgba(197, 139, 91, 0.055);
+
+    border:
+        1px solid
+        rgba(197, 139, 91, 0.12);
+}
+
+
+.info-card h3 {
+
+    font-size: 14px;
+
+    margin-bottom: 8px;
+}
+
+
+.info-card p {
+
+    color:
+        var(--muted);
+
+    font-size: 12px;
+
+    line-height: 1.7;
+}
+
+
+/* =========================================================
+   FOOTER
+   ========================================================= */
+
+footer {
+
+    margin-top: 24px;
+
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: center;
+
+    padding:
+        18px 5px;
+
+    color:
+        #766961;
+
+    font-size: 11px;
+}
+
+
+.reset-btn {
+
+    border: none;
+
+    background:
+        transparent;
+
+    color:
+        #a18f84;
+
+    cursor: pointer;
+
+    transition:
+        0.2s;
+}
+
+
+.reset-btn:hover {
+
+    color:
+        var(--text);
+}
+
+
+/* =========================================================
+   RESPONSIVE DESIGN
+   ========================================================= */
+
+@media (max-width: 850px) {
+
+    .grid {
+
+        grid-template-columns:
+            1fr;
+    }
+}
+
+
+@media (max-width: 600px) {
+
+    body {
+
+        padding:
+            15px 10px;
+    }
+
+
+    .header {
+
+        padding:
+            20px;
+    }
+
+
+    .status {
+
+        display:
+            none;
+    }
+
+
+    .menu {
+
+        grid-template-columns:
+            1fr;
+    }
+
+
+    .payment-row {
+
+        flex-direction:
+            column;
+    }
+
+
+    .pay-btn {
+
+        width:
+            100%;
+    }
+
+
+    .ingredients {
+
+        grid-template-columns:
+            1fr 1fr;
+    }
+
+
+    footer {
+
+        flex-direction:
+            column;
+
+        gap:
+            10px;
+    }
+}
